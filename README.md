@@ -16,9 +16,9 @@ You can either set up the project manually or use Docker for an easier environme
 1. **Clone the Repository**
    Clone the repository to your local machine using Git:
  ```
-    git clone https://github.com/yourusername/yourprojectname.git
+    git clone https://github.com/zamshedarifin/role-permission-repository-pattern.git
     
-    cd yourprojectname
+    cd role-permission-repository-pattern
  ```
 2. **Install Dependencies**
         Install Composer dependencies:
@@ -182,11 +182,11 @@ You can now make API requests to the following endpoints (example routes):
 ### API Documents
 View the API Documentation:
 
-### Navigate to `/docs/api` in your browser.
+#### Navigate to `/docs/api` in your browser.
 
-### JSON Documentation:
+#### JSON Documentation:
 
-### Access `/docs/api.json` for OpenAPI JSON format.
+#### Access `/docs/api.json` for OpenAPI JSON format.
 
 ## Docker Commands
 - **Build and Start Docker Containers**:
