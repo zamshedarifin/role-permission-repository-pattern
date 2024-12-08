@@ -17,14 +17,11 @@ class RolePermissionSeeder extends Seeder
         $permissions = [
             'view-post', 'create-post', 'update-post', 'delete-post',
         ];
-
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
-
         $admin = Role::create(['name' => 'Admin']);
         $editor = Role::create(['name' => 'Editor']);
-
         $admin->permissions()->attach(Permission::all());
         $editor->permissions()->attach(Permission::where('name', 'view-post')->orWhere('name', 'create-post')->get());
     }

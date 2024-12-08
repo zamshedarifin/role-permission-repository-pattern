@@ -13,6 +13,7 @@ Route::prefix('admin')->group(function () {
         Route::apiResource('users', UserController::class);
         Route::post('/users/{userId}/assign-admin', [UserController::class, 'assignAdminRole']);
 
+
         //roles
         Route::apiResource('roles', RoleController::class);
         Route::post('/roles', [RoleController::class, 'store']);

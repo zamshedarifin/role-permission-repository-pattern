@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class UserController extends ApiController
@@ -67,12 +68,18 @@ class UserController extends ApiController
 
     // Assign a role to a user
     public function assignAdminRole(Request $request, $userId)
-    {
-        $validated = $request->validate(['role_id' => 'required|exists:roles,id']);
-        $assigned = $this->userRepository->assignRole($userId, $validated['role_id']);
-        if ($assigned) {
-            return response()->json(['message' => 'Role assigned successfully']);
+    { 
+        $adminRole = Role::where('name', 'Admin')->first();
+        if (!$adminRole) {
+            return response()->json(['message' => 'Admin role not found'], 404);
         }
-        return response()->json(['message' => 'Error assigning role'], 400);
+        // Find the user
+        $user = \App\Models\User::find($userId);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        $user->roles()->syncWithoutDetaching($adminRole->id);
+
+        return response()->json(['message' => 'Admin role assigned to user successfully']);
     }
 }

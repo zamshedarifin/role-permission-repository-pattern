@@ -1,66 +1,215 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel API Project
+This project is a Laravel-based API designed to manage roles, permissions, and posts. It includes
+user authentication via Passport, role-based access control, and permissions for actions like
+creating, updating, deleting, and viewing posts.
+## Prerequisites
+Before running the project, ensure you have the following installed:
+- PHP 8.0 or higher
+- Composer
+- MySQL or another database system supported by Laravel
+- Laravel 11.x (this project uses Laravel 11)
+- Docker (optional, if you prefer using Docker for containerization)
+## Installation
+You can either set up the project manually or use Docker for an easier environment setup.
+### Option 1: Manual Setup
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+1. **Clone the Repository**
+   Clone the repository to your local machine using Git:
+ ```
+    git clone https://github.com/yourusername/yourprojectname.git
+    
+    cd yourprojectname
+ ```
+2. **Install Dependencies**
+        Install Composer dependencies:
+ ```
+    composer install
+ ```
+If you are using frontend assets with Laravel Mix, install Node.js dependencies:
+ ```
+    npm install
+ ```
+3. **Copy Environment File**
+     Copy the `.env.example` to `.env`:
+```
+    cp .env.example .env
+ ```
+4. **Generate Application Key**
+   Run the following command to generate the Laravel application key:
+ ```
+  php artisan key:generate
+ ```
+5. **Configure Database**
+    Edit the `.env` file to set your database credentials:
+ ```env
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=your_database_name
+     DB_USERNAME=root
+     DB_PASSWORD=
+ ```
+Replace `your_database_name` with the actual database name.
+6. **Run Database Migrations**
+   Run the database migrations to create the necessary tables:
+ ```
+    php artisan migrate
+ ```
+7. **Set Up Passport (API Authentication)**
+   If you're using Passport for API authentication, run:
+ ```
+    php artisan passport:install
+ ```
+This will create the necessary encryption keys for Passport.
+8. **Seed Data (Optional)**
+   If you have seeders for default roles, permissions, or posts, you can run:
+ ```
+    php artisan db:seed
+ ```
+9. **Start the Development Server**
+   Start the Laravel development server:
+ ```
+    php artisan serve
+ ```
 
-## About Laravel
+The API should now be accessible at `http://127.0.0.1`
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+If use Docker use docker Port like `http://localhost:3000/`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
+### Option 2: Docker Setup (Optional)
+If you prefer using Docker to run the project, follow these steps:
+#### Step 1: Install Docker
+- [Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
+- [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
+- [Docker for Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+#### Step 2: Clone the Repository
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Clone the repository to your local machine:
+```
+git clone https://github.com/yourusername/yourprojectname.git
+cd yourprojectname
+```
+#### Step 3: Docker Setup
+1. **Build and Start the Docker Containers**
+   Run the following command to build and start the Docker containers:
+ ```
+    docker-compose build
+    docker-compose up -d
+ ```
+This command will:
+- Build the containers based on the `Dockerfile` and `docker-compose.yml`.
+- Start the containers in detached mode.
+2. **Install Composer Dependencies Inside the Docker Container**
+   Once the containers are up and running, enter the container and install the Composer
+   dependencies:
+``` 
+     docker exec -it -u root role-permission-repository-pattern-role_permission-1 
+     
+     composer install
+ ```
+ Update Docker Port on .env file
 
-## Learning Laravel
+````
+DOCKER_APP_PORT=4000
+DOCKER_APP_SSL_PORT=4001
+DOCKER_DB_PORT=4002
+DOCKER_PHPMYADMIN_PORT=4003
+DOCKER_REDIS_PORT=4004
+````
+ ```env
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=your_database_name
+     DB_USERNAME=root
+     DB_PASSWORD=
+ ```
+3. **Install Node.js Dependencies (Optional)**
+   If you're using Laravel Mix or have frontend assets, install the required npm packages:
+ ```
+  npm install
+ ```
+4. **Set Up Environment Variables**
+   Copy the `.env.example` file to `.env`:
+ ```
+    cp .env.example .env
+ ```
+5. **Configure Database**
+   Edit the `.env` file to configure the database connection:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+ ```env
+ DB_CONNECTION=mysql
+ DB_HOST=db
+ DB_PORT=3306
+ DB_DATABASE=your_database_name
+ DB_USERNAME=root
+ DB_PASSWORD=
+ ```
+Note: The database host is set to `db` because it refers to the MySQL container defined in
+`docker-compose.yml`.
+6. **Run Migrations**
+   Once inside the container, run the migrations:
+ ```
+    php artisan migrate
+ ```
+7. **Set Up Passport (API Authentication)**
+   Run the following command inside the container to set up Passport:
+ ```
+    php artisan passport:install
+```
+8. **Seed Data (Optional)**
+   If you have database seeders, run:
+ ```
+    php artisan db:seed
+ ```
+9. **Start Laravel Services**
+   Laravel services should be running automatically with Docker, but if not, you can use:
+ ```
+    php artisan serve
+ ```
+#### Step 4: Accessing the API
+Once everything is set up, you should be able to access your API at `http://localhost:8000`.
+## Usage
+You can now make API requests to the following endpoints (example routes):
+`GET /api/v1/admin/posts` - View all posts
+- `POST /api/v1/admin/posts` - Create a new post
+- `GET /api/v1/admin/posts/{id}` - View a single post
+- `PUT /api/v1/admin/posts/{id}` - Update an existing post
+- `DELETE /api/v1/admin/posts/{id}` - Delete a post
+  Ensure you pass the appropriate `Authorization` token in the headers for API access.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### API Documents
+View the API Documentation:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Navigate to `/docs/api` in your browser.
 
-## Laravel Sponsors
+### JSON Documentation:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Access `/docs/api.json` for OpenAPI JSON format.
 
-### Premium Partners
+## Docker Commands
+- **Build and Start Docker Containers**:
+ ```
+    docker-compose build 
+    
+    docker-compose up -d
+ ```
+- **Stop Docker Containers**:
+ ```
+    docker-compose down
+ ```
+- **Access Docker Container**:
+ ```
+   docker exec -it role-permission-repository-pattern-role_permission-1 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+- **Tail Docker Logs**:
+ ```
+    docker logs -f role-permission-repository-pattern-role_permission-1
+ ```
+## Troubleshooting
+- If you face issues with permissions, make sure that the appropriate roles and permissions are
+  assigned to the user.
+- If you're using Docker, check the container logs for detailed error messages.
+--- 

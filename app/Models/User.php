@@ -32,4 +32,10 @@ class User extends Authenticatable
         return $this->permissions->contains('name', $permissionName) ||
             $this->roles->pluck('permissions')->flatten()->contains('name', $permissionName);
     }
+
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
 }
