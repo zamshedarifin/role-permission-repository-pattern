@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function () {
 
     Route::middleware('auth:api')->group(function () {
+        Route::apiResource('users', UserController::class);
+        Route::post('/users/{userId}/assign-admin', [UserController::class, 'assignAdminRole']);
+
         //roles
         Route::apiResource('roles', RoleController::class);
         Route::post('/roles', [RoleController::class, 'store']);
@@ -18,5 +21,5 @@ Route::prefix('admin')->group(function () {
         Route::apiResource('permissions', PermissionController::class);
     });
 
-   Route::apiResource('users', UserController::class);
+
 });

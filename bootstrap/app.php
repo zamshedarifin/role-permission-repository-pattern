@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'permission' => \App\Http\Middleware\checkIsPermited::class,
+            'checkIfAdmin' => \App\Http\Middleware\checkIfAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
